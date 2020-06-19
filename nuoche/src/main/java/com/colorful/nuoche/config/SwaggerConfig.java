@@ -21,16 +21,16 @@ public class SwaggerConfig {
 				// 为当前包路径
 				.apis(RequestHandlerSelectors.basePackage("com.colorful.nuoche.controller")).paths(PathSelectors.any())
 				.build();
-//	        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build();
+		//return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build();
 	}
 
 	// 构建 api文档的详细信息函数,注意这里的注解引用的是哪个
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				// 页面标题
-				.title("Spring Boot 使用 Swagger2 构建RESTful API")
+				.title("七彩(colorful)挪车")
 				// 创建人
-				.contact(new Contact("yangjin", "http://没有网站/", ""))
+				.contact(new Contact("colorful-nuoche", "http://colorful-nuoche.com/", ""))
 				// 版本号
 				.version("1.0")
 				// 描述
