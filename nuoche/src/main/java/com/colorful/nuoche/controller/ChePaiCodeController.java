@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colorful.nuoche.entity.common.ResponseMap;
 import com.colorful.nuoche.units.ResourceFilesReader;
 
 import io.swagger.annotations.Api;
@@ -59,7 +60,7 @@ public class ChePaiCodeController {
 	@ResponseBody
 	@RequestMapping(value = "/chePaiCode", method = RequestMethod.GET)
 	public Object code() throws IOException {
-		return getChePaiCodes();
+		return new ResponseMap(200,"请求成功",getChePaiCodes());
 	}
 
 }

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colorful.nuoche.entity.common.ResponseMap;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -37,9 +39,8 @@ public class ChePaiRegisterController {
 							@RequestParam(name="code3" ,required = true) String code3,
 							@RequestParam(name="contactNum" ,required = true) String contactNum,
 							@RequestParam(name="nick" ,required = true) String nick) {
-		
-		Map<String,Object> retVal = new HashMap<String, Object>();
-		retVal.put("code",400);
+		ResponseMap retVal = new ResponseMap();
+		retVal.setCode(400);
 		
 		Map<String,Object> chePaiCodes = new ChePaiCodeController().getChePaiCodes();
 		String[] areaArr = (String[]) chePaiCodes.get(code1);
@@ -47,13 +48,13 @@ public class ChePaiRegisterController {
 		if(areaArr !=null && areaArr.length > 0 ) {
 			int num = Arrays.binarySearch(areaArr, code2);
 			if(num >= 0 ) {
-				retVal.put("code",200);
-				retVal.put("msg","登记完成");
+				retVal.setCode(200);
+				retVal.setMsg("登记完成");
 			}else {
-				retVal.put("msg","请输入正确的车牌所属区域");
+				retVal.setMsg("请输入正确的车牌所属区域");
 			}
 		}else {
-			retVal.put("msg","请输入正确的车牌所属省份");
+			retVal.setMsg("请输入正确的车牌所属省份");
 		}
 		return retVal;
 	}
