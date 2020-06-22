@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colorful.nuoche.entity.common.ResponseDataMap;
 import com.colorful.nuoche.entity.common.ResponseMap;
 import com.colorful.nuoche.units.ResourceFilesReader;
 
@@ -56,11 +57,10 @@ public class ChePaiCodeController {
 
 
 	@ApiOperation("获取车牌区域代码")
-	@ApiImplicitParam()
 	@ResponseBody
 	@RequestMapping(value = "/chePaiCode", method = RequestMethod.GET)
 	public Object code() throws IOException {
-		return new ResponseMap(200,"请求成功",getChePaiCodes());
+		return new ResponseDataMap(200,"请求成功",getChePaiCodes());
 	}
 
 }
