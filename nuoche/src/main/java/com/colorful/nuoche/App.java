@@ -1,16 +1,18 @@
 package com.colorful.nuoche;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * Hello world!
- *
- */
 
+
+//MyBatis 支持
+@MapperScan("com.**.dao")
+@EnableTransactionManagement
 @SpringBootApplication
 @Controller
 public class App extends SpringBootServletInitializer  {
@@ -19,8 +21,9 @@ public class App extends SpringBootServletInitializer  {
 		SpringApplication.run(App.class, args);
 	}
 
-
-
+	/**
+	 * 方便读取resource下的文件，这里需要重写下方法
+	 */
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(App.class);
