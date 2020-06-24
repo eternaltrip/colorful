@@ -1,4 +1,4 @@
-package com.colorful.nuoche.units;
+package com.colorful.nuoche.common.units;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.springframework.core.io.Resource;
  * @author travel
  *
  */
-public class ResourceFilesReader {
+public class TextFilesReader {
 	
 	
 	/**

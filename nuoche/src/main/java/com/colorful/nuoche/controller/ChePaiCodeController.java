@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colorful.nuoche.common.units.TextFilesReader;
 import com.colorful.nuoche.entity.common.ResponseDataMap;
-import com.colorful.nuoche.entity.common.ResponseMap;
-import com.colorful.nuoche.units.ResourceFilesReader;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "车牌区域代码", description = "车牌区域代码相关接口")
@@ -39,7 +37,7 @@ public class ChePaiCodeController {
 		if (chePaiCodes == null) {
 			synchronized (this) {
 				if (chePaiCodes == null) {
-					List<String> lines = ResourceFilesReader.read(chepaiCodeFileName);
+					List<String> lines = TextFilesReader.read(chepaiCodeFileName);
 					chePaiCodes = new HashMap<>();
 					lines.forEach(line -> {
 						String text = line.substring(0, 1);

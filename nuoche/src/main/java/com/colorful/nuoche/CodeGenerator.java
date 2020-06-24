@@ -42,7 +42,7 @@ public class CodeGenerator {
 		GlobalConfig gc = new GlobalConfig();
 		String projectPath = System.getProperty("user.dir");
 		gc.setOutputDir(projectPath + "/src/main/java");
-		gc.setAuthor("Cuicui");
+		gc.setAuthor("yangjin");
 		gc.setOpen(false);
 		// 实体属性 Swagger2 注解
 		gc.setSwagger2(true);
@@ -54,19 +54,19 @@ public class CodeGenerator {
 		DataSourceConfig dsc = new DataSourceConfig();
 		// * 配置数据库
 		dsc.setUrl(
-				"jdbc:mysql://192.168.1.205:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC");
+				"jdbc:mysql://localhost:3306/nuoche?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai");
 		// dsc.setSchemaName("public");
 		dsc.setDriverName("com.mysql.cj.jdbc.Driver");
 		// * 配置数据库账号密码
 		dsc.setUsername("root");
-		dsc.setPassword("admin");
+		dsc.setPassword("123456");
 		mpg.setDataSource(dsc);
 
 		// 包配置
 		PackageConfig pc = new PackageConfig();
 		pc.setModuleName(scanner("模块名"));
 		// * 配置包名
-		pc.setParent("com.cuicui.demomp");
+		pc.setParent("com.colorful");
 		mpg.setPackageInfo(pc);
 
 		// 自定义配置

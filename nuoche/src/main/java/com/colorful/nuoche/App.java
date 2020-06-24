@@ -11,10 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 //MyBatis 支持
-@MapperScan("com.**.dao")
+@MapperScan("com.colorful.nuoche.mapper")
 @EnableTransactionManagement
 @SpringBootApplication
-@Controller
 public class App extends SpringBootServletInitializer  {
 
 	public static void main(String[] args) {
