@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.colorful.nuoche.compent.ChepaiCodeCompent;
-import com.colorful.nuoche.entity.common.ResponseDataMap;
+import com.colorful.nuoche.entity.common.ResponseDataUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +29,8 @@ public class ChePaiCodeController {
 	@ApiOperation("获取车牌区域代码")
 	@RequestMapping(value = "/chePaiCode", method = RequestMethod.GET)
 	public Object code(HttpServletRequest request) throws IOException {
-		return new ResponseDataMap(200,"请求成功",chepaiCode.getChepaiCode());
+		
+		return ResponseDataUtil.buildSuccess(chepaiCode.getChepaiCode());
 	}
 
 }

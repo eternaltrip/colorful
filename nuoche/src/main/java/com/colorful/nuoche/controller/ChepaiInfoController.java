@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.colorful.nuoche.compent.ChepaiCodeCompent;
 import com.colorful.nuoche.compent.CodeFile;
 import com.colorful.nuoche.entity.ChepaiInfo;
-import com.colorful.nuoche.entity.common.ResponseMap;
+import com.colorful.nuoche.entity.common.ResponseData;
+import com.colorful.nuoche.entity.common.ResponseDataUtil;
+import com.colorful.nuoche.entity.common.ResultEnums;
 import com.colorful.nuoche.service.ChepaiInfoService;
 
 import io.swagger.annotations.Api;
@@ -41,6 +43,7 @@ public class ChepaiInfoController {
 	private ChepaiCodeCompent chepaiCodeCompent;
 	
 	
+	@SuppressWarnings("unchecked")
 	@ApiOperation("车牌登记")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "code1", value = "车牌所属省份", paramType = "query",  dataType = "String" ,required = true),
@@ -61,9 +64,7 @@ public class ChepaiInfoController {
 							@RequestParam(name="wechatUserInfoId" ,required = true) String wechatUserInfoId,
 							@RequestParam(name="verifyCode" ,required = true) String verifyCode,
 							String chepaiId) {
-		ResponseMap retVal = new ResponseMap();
-		retVal.setCode(400);
-		
+		ResponseData<Object> responseData = null; 
 		if(request != null && request.getSession() != null) {
 			String sessionIdKey = request.getSession().getId() + CodeFile.verifyCode;
 			
@@ -96,21 +97,20 @@ public class ChepaiInfoController {
 						chepaiInfo.setContactPersonName(nick);
 						chepaiInfo.setWechatUserInfoId(wechatUserInfoId);
 						chepaiInfoService.saveOrUpdate(chepaiInfo);
-						retVal.setCode(200);
-						retVal.setMsg("登记完成");
+						responseData = ResponseDataUtil.buildSuccess("登记完成");
 					}else {
-						retVal.setMsg("请输入正确的车牌所属区域");
+						responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"请输入正确的车牌所属区域");
 					}
 				}else {
-					retVal.setMsg("请输入正确的车牌所属省份");
+					responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"请输入正确的车牌所属省份");
 				}
 			}else {
-				retVal.setMsg("验证码错误！");
+				responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"验证码错误");
 			}
 		}else {
-			retVal.setMsg("请求参数有误，请重试");
+			responseData = ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
 		}
-		return retVal;
+		return responseData;
 	}
 
 }
