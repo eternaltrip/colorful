@@ -24,11 +24,11 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- 生成模型的包名和位置 -->
-		<javaModelGenerator targetPackage="com.colorful.nuoche.entity"
+		 <javaModelGenerator targetPackage="com.colorful.nuoche.entity"
 			targetProject="nuoche/src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
-		</javaModelGenerator>
+		</javaModelGenerator> 
 		<!-- 生成映射文件的包名和位置 -->
 		<sqlMapGenerator targetPackage="mapping"
 			targetProject="nuoche/src/main/resources">
@@ -42,8 +42,8 @@
 		
 		<!-- 要生成哪些表 -->
 		<table schema="nuoche"  tableName="chepaiinfo" 
-		 enableCountByExample="true" enableInsert="true" enableSelectByExample="true" enableSelectByPrimaryKey="true"
-		 enableUpdateByExample="true" enableUpdateByPrimaryKey="true" >
+		 enableCountByExample="false" enableInsert="true" enableSelectByExample="false" enableSelectByPrimaryKey="true"
+		 enableUpdateByExample="false" enableUpdateByPrimaryKey="true" >
 		</table>
 	</context>
 </generatorConfiguration>
