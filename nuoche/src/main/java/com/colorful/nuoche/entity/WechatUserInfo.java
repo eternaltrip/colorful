@@ -3,6 +3,7 @@ package com.colorful.nuoche.entity;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.colorful.nuoche.entity.common.BaseEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiModel;
  * @since 2020-06-24
  */
 @ApiModel(value = "WechatUserInfo对象", description = "")
+@TableName("WECHAT_USER_INFO")
 public class WechatUserInfo extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;

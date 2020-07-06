@@ -2,22 +2,28 @@ package com.colorful.nuoche.controller;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.colorful.nuoche.compent.ChepaiCodeCompent;
 import com.colorful.nuoche.compent.CodeFile;
 import com.colorful.nuoche.entity.ChepaiInfo;
+import com.colorful.nuoche.entity.WechatUserInfo;
 import com.colorful.nuoche.entity.common.ResponseData;
 import com.colorful.nuoche.entity.common.ResponseDataUtil;
 import com.colorful.nuoche.entity.common.ResultEnums;
@@ -28,7 +34,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags="车牌登记" , description = "车牌登记相关接口")
+@Api(tags="车牌信息" , description = "车牌信息相关接口")
 @RestController
 @RequestMapping(value = "/chepai")
 public class ChepaiInfoController {
@@ -56,7 +62,8 @@ public class ChepaiInfoController {
 		@ApiImplicitParam(name = "chepaiId", value = "该车牌已登记的id,已有则需要传，否则不需要", paramType = "query",  dataType = "String",required = false)
 	})
 	@RequestMapping(value = "/bind", method = RequestMethod.POST)
-	public Object register(HttpServletRequest request ,@RequestParam(name="code1" ,required = true) String code1,
+	public Object register(HttpServletRequest request ,
+							@RequestParam(name="code1" ,required = true) String code1,
 							@RequestParam(name="code2" ,required = true) String code2,
 							@RequestParam(name="code3" ,required = true) String code3,
 							@RequestParam(name="contactNum" ,required = true) String contactNum,
@@ -67,7 +74,6 @@ public class ChepaiInfoController {
 		ResponseData<Object> responseData = null; 
 		if(request != null && request.getSession() != null) {
 			String sessionIdKey = request.getSession().getId() + CodeFile.verifyCode;
-			
 			
 			String verifyCodeInCache = (String)redisTemplate.opsForValue().get(sessionIdKey);
 			
@@ -84,9 +90,14 @@ public class ChepaiInfoController {
 					if(num >= 0 ) {
 						ChepaiInfo chepaiInfo = new ChepaiInfo();
 						if(StringUtils.isBlank(chepaiId)) {
-							chepaiInfo.setId(UUID.randomUUID().toString());
-							chepaiInfo.setCreateTime(LocalDateTime.now());
-							chepaiInfo.setCreateBy("user");
+							int carsNO = chepaiInfoService.query().eq("WECHAT_USER_INFO_ID", wechatUserInfoId).count();
+							if(carsNO > 9) {
+								responseData = ResponseDataUtil.buildError(ResultEnums.ERROR.getCode(),"您绑定的车辆不能超过10辆");
+							}else {
+								chepaiInfo.setId(UUID.randomUUID().toString());
+								chepaiInfo.setCreateTime(LocalDateTime.now());
+								chepaiInfo.setCreateBy("user");
+							}
 						}else {
 							chepaiInfo.setId(chepaiId);
 							chepaiInfo.setUpdateTime(LocalDateTime.now());
@@ -112,5 +123,19 @@ public class ChepaiInfoController {
 		}
 		return responseData;
 	}
-
+	
+	
+	
+	@ApiOperation("获取绑定车牌信息")
+	@ApiImplicitParam(name = "openId", value = "微信用户信息openId", paramType ="query" ,  dataType = "String" ,required = true)
+	@GetMapping("/getChePaiInfo")
+	public Object getChePaiInfo(@RequestParam() String openId) {
+		try {
+			List<ChepaiInfo> chepaiInfos = chepaiInfoService.queryChepaiInfoByOpenId(openId);
+			return ResponseDataUtil.buildSuccess(chepaiInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseDataUtil.buildError("获取绑定车牌信息失败");
+		}
+	}
 }

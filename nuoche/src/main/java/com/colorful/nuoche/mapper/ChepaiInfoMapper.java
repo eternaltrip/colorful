@@ -2,6 +2,8 @@ package com.colorful.nuoche.mapper;
 
 import com.colorful.nuoche.entity.ChepaiInfo;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -12,5 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 @Repository
 public interface ChepaiInfoMapper extends BaseMapper<ChepaiInfo> {
+
+	List<ChepaiInfo> queryChepaiInfoByOpenId(String openId);
 
 }
