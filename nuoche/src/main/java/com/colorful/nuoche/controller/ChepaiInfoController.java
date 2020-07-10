@@ -110,16 +110,16 @@ public class ChepaiInfoController {
 						chepaiInfoService.saveOrUpdate(chepaiInfo);
 						responseData = ResponseDataUtil.buildSuccess("登记完成");
 					}else {
-						responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"请输入正确的车牌所属区域");
+						responseData = ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR.getCode(),"请输入正确的车牌所属区域");
 					}
 				}else {
-					responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"请输入正确的车牌所属省份");
+					responseData = ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR.getCode(),"请输入正确的车牌所属省份");
 				}
 			}else {
-				responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"验证码错误");
+				responseData = ResponseDataUtil.buildError(ResultEnums.VERIFY_CODE_ERROR.getCode(),"验证码错误,请刷新验证码");
 			}
 		}else {
-			responseData = ResponseDataUtil.buildError(ResultEnums.PARAM_ERROR);
+			responseData = ResponseDataUtil.buildError(ResultEnums.ERROR);
 		}
 		return responseData;
 	}
