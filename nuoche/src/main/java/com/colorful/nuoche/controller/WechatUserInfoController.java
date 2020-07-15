@@ -44,18 +44,21 @@ public class WechatUserInfoController {
 	@PostMapping("/saveUserInfo")
 	public Object wechatInfo(@ModelAttribute WechatUserInfo wechatUserInfo) {
 		try {
-			UpdateWrapper<WechatUserInfo> updateWrapper = new UpdateWrapper<WechatUserInfo>();
-			updateWrapper.eq("OPEN_ID", wechatUserInfo.getOpenId());
-			if(StringUtils.isBlank(wechatUserInfo.getId())) {
-				wechatUserInfo.setId(UUID.randomUUID().toString());
-				wechatUserInfo.setCreateBy("user");
-				wechatUserInfo.setCreateTime(LocalDateTime.now());
-			}else {
-				wechatUserInfo.setUpdateBy("user");
-				wechatUserInfo.setUpdateTime(LocalDateTime.now());
+			if(wechatUserInfo != null && StringUtils.isNotBlank(wechatUserInfo.getOpenId())) {
+				UpdateWrapper<WechatUserInfo> updateWrapper = new UpdateWrapper<WechatUserInfo>();
+				updateWrapper.eq("OPEN_ID", wechatUserInfo.getOpenId());
+				if(StringUtils.isBlank(wechatUserInfo.getId())) {
+					wechatUserInfo.setId(UUID.randomUUID().toString());
+					wechatUserInfo.setCreateBy("user");
+					wechatUserInfo.setCreateTime(LocalDateTime.now());
+				}else {
+					wechatUserInfo.setUpdateBy("user");
+					wechatUserInfo.setUpdateTime(LocalDateTime.now());
+				}
+				wechatUserInfoService.saveOrUpdate(wechatUserInfo,updateWrapper);
+				return ResponseDataUtil.buildSuccess("用户信息保存成功");
 			}
-			wechatUserInfoService.saveOrUpdate(wechatUserInfo,updateWrapper);
-			return ResponseDataUtil.buildSuccess("用户信息保存成功");
+			return ResponseDataUtil.buildError("数据不能为空！");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseDataUtil.buildError("用户信息保存失败");
