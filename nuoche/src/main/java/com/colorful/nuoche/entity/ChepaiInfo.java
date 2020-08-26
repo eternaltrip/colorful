@@ -31,7 +31,7 @@ public class ChepaiInfo extends BaseEntity implements Serializable {
 	private String contactPersonName;
 
 	
-	@ApiModelProperty(value = "车主的信息id")
+	@ApiModelProperty(value = "车主的微信OpenId")
 	@TableField("WECHAT_USER_INFO_ID")
 	private String wechatUserInfoId;
 

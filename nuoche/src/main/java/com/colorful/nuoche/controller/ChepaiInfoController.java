@@ -68,7 +68,7 @@ public class ChepaiInfoController {
 							@RequestParam(name="code3" ,required = true) String code3,
 							@RequestParam(name="contactNum" ,required = true) String contactNum,
 							@RequestParam(name="nick" ,required = true) String nick,
-							@RequestParam(name="wechatUserInfoId" ,required = true) String wechatUserInfoId,
+							@RequestParam(name="wechatUserOpenId" ,required = true) String wechatUserInfoId,
 							@RequestParam(name="verifyCode" ,required = true) String verifyCode,
 							String chepaiId) {
 		ResponseData<Object> responseData = null; 

@@ -1,7 +1,6 @@
-#log文件配置logging:  config: classpath:log4j2_product.xmlserver:  tomcat:    basedir: logs    accesslog:      pattern: '%t %m %s %v %U'      enabled: true      directory: c:/serverLogs/access-logs      buffered: false
+#log文件配置logging:  config: classpath:log4j2_dev.xml  level:     org.springframework: debug
 #spring
-spring:
-  banner:
+spring:  banner:
     charset: UTF-8
   messages:
     encoding: UTF-8

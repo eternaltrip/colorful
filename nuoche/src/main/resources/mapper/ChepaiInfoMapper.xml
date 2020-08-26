@@ -20,7 +20,7 @@
 	<select id="queryChepaiInfoByOpenId" parameterType="string" resultMap="BaseResultMap">
 		select * from CHEPAI_INFO 
 		where 
-		WECHAT_USER_INFO_ID = (select id  from WECHAT_USER_INFO where open_Id=#{openId})
+		WECHAT_USER_INFO_ID = #{openId}
 	</select>
 
 	
