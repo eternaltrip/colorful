@@ -49,9 +49,9 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
 		for (int i = 0; i < parameterValues.length; i++) {
 			String value = parameterValues[i];
 			// 这个过滤xss攻击的工具类，现在是借助第三方插件使用的。 也可以自己写一个工具类 比如下面的 XssUtil
-			parameterValues[i] = StringEscapeUtils.escapeHtml4(value);
+//			parameterValues[i] = StringEscapeUtils.escapeHtml4(value);
 			// 自定义工具类
-			// parameterValues[i] = XssUtil.xssEncode(parameterValues[i]);
+			parameterValues[i] = XssUtil.xssEncode(parameterValues[i]);
 
 		}
 		return parameterValues;
