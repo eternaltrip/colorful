@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.colorful.nuoche.compent.ChepaiCodeCompent;
 import com.colorful.nuoche.compent.CodeFile;
 import com.colorful.nuoche.entity.ChepaiInfo;
@@ -58,7 +59,10 @@ public class ChepaiInfoController {
 		@ApiImplicitParam(name = "contactNum", value = "联系电话", paramType = "query",  dataType = "String",required = true),
 		@ApiImplicitParam(name = "nick", value = "称呼", paramType = "query",  dataType = "String",required = true),
 		@ApiImplicitParam(name = "wechatUserOpenId", value = "微信用户的openid", paramType = "query",  dataType = "String",required = true),
-		@ApiImplicitParam(name = "verifyCode", value = "验证码", paramType = "query",  dataType = "String",required = true),
+			/*
+			 * @ApiImplicitParam(name = "verifyCode", value = "验证码", paramType = "query",
+			 * dataType = "String",required = true),
+			 */
 		@ApiImplicitParam(name = "chepaiId", value = "该车牌已登记的id,已有则需要传，否则不需要", paramType = "query",  dataType = "String",required = false)
 	})
 	@RequestMapping(value = "/bind", method = RequestMethod.POST)
@@ -69,19 +73,19 @@ public class ChepaiInfoController {
 							@RequestParam(name="contactNum" ,required = true) String contactNum,
 							@RequestParam(name="nick" ,required = true) String nick,
 							@RequestParam(name="wechatUserOpenId" ,required = true) String wechatUserOpenId,
-							@RequestParam(name="verifyCode" ,required = true) String verifyCode,
+			/* @RequestParam(name="verifyCode" ,required = true) String verifyCode, */
 							String chepaiId) {
 		ResponseData<Object> responseData = null; 
 		if(request != null && request.getSession() != null) {
-			String sessionIdKey = request.getSession().getId() + CodeFile.verifyCode;
+			//String sessionIdKey = request.getSession().getId() + CodeFile.verifyCode;
 			
-			String verifyCodeInCache = (String)redisTemplate.opsForValue().get(sessionIdKey);
+			//String verifyCodeInCache = (String)redisTemplate.opsForValue().get(sessionIdKey);
 			
 			//验证码是否正确
 //			if(verifyCode.equalsIgnoreCase(verifyCodeInCache)) {
 			if(true) {
 				//如果正确就删除key，下次使用时，重新获取
-				redisTemplate.delete(sessionIdKey);
+				//redisTemplate.delete(sessionIdKey);
 				
 				Map<String,Object> chePaiCodes = chepaiCodeCompent.getChepaiCode();
 				String[] areaArr = (String[]) chePaiCodes.get(code1);
@@ -137,6 +141,23 @@ public class ChepaiInfoController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseDataUtil.buildError("获取绑定车牌信息失败");
+		}
+	}
+	
+	
+	
+	@ApiOperation("查询车牌联系电话")
+	@ApiImplicitParam(name = "code", value = "车牌", paramType ="query" ,  dataType = "String" ,required = true)
+	@GetMapping("/getMobileNum")
+	public Object getChepaiMobileNum(@RequestParam() String code) {
+		try {
+			QueryWrapper<ChepaiInfo> chainWrapper =  new QueryWrapper<ChepaiInfo>();
+			chainWrapper.eq("CHEPAI", code);
+			ChepaiInfo  chepaiInfo = chepaiInfoService.getOne(chainWrapper);
+			return ResponseDataUtil.buildSuccess(chepaiInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseDataUtil.buildError("获取车牌联系电话失败");
 		}
 	}
 }
